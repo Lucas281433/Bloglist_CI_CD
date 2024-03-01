@@ -34,3 +34,12 @@ jobs:
       - name: Build
         working-directory: client
         run: npm run build
+
+      - name: Test backend
+        run: npm run test
+
+      - name: Test frontend
+        working-directory: client
+        run: npm run test
+
+        
