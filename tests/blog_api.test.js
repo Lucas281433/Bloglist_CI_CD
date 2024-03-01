@@ -188,7 +188,10 @@ test("The likes information of a blog is updated", async () => {
     likes: 9999999,
   };
 
-  await api.put(`/api/blogs/${blogToUpdate.id}`).send(updatedBlog);
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updatedBlog)
+    .set({ Authorization: `Bearer ${token}` });
 
   const blogsAtEnd = await helper.blogsInDb();
   const likes = blogsAtEnd.map((blog) => blog.likes);
