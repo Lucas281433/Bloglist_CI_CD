@@ -37,6 +37,7 @@ jobs:
 
       - name: Test backend
         run: npm run test
+        working-directory: test
 
       - name: Test frontend
         working-directory: client
