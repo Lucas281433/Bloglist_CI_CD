@@ -1,0 +1,28 @@
+name: Deploy Bloglist
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: 
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  deploy_bloglist:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies backend
+        run: npm install 
+
+      - name: Install dependencies frontend
+        working-directory: client
+        run: npm install
