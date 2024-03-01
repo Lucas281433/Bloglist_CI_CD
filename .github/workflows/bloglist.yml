@@ -26,3 +26,11 @@ jobs:
       - name: Install dependencies frontend
         working-directory: client
         run: npm install
+
+      - name: Check Lint 
+        working-directory: client
+        run: npm run lint
+
+      - name: Build
+        working-directory: client
+        run: npm run build
