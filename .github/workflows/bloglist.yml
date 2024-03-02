@@ -44,10 +44,14 @@ jobs:
       - name: Test e2e
         uses: cypress-io/github-action@v5
         env: 
+          baseUrl: ${{ secrets.BASEURL }}
+          BACKEND: ${{ secrets.BACKEND }}
           PORT: ${{ secrets.PORT }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           run: |
+            echo "$baseUrl"
+            echo "$BACKEND"
             echo "$PORT"
             echo "$MONGODB_URI"
             echo "$TEST_MONGODB_URI"
