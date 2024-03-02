@@ -47,10 +47,12 @@ jobs:
           baseUrl: ${{ secrets.BASEURL }}
           BACKEND: ${{ secrets.BACKEND }}
           PORT: ${{ secrets.PORT }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           run: |
             echo "$baseUrl"
             echo "$BACKEND"
             echo "$PORT"
+            echo "$TEST_MONGODB_URI"
         with:
           command: npm run cypress:run
           start: npm run start:test
