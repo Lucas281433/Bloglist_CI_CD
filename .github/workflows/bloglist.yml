@@ -35,7 +35,11 @@ jobs:
         working-directory: client
         run: npm run build
 
-      
+      - name: Test backend
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          run: echo "$TEST_MONGODB_URI"
+        run: npm run test --test
 
       - name: Test frontend
         working-directory: client
