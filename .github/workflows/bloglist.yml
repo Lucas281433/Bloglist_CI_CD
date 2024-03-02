@@ -35,7 +35,9 @@ jobs:
         working-directory: client
         run: npm run build
 
-      
+      - name: Start server Forntend
+        working-directory: client
+        run: npm run dev
 
       - name: Test frontend
         working-directory: client
@@ -44,7 +46,6 @@ jobs:
       - name: Test e2e
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start:test
-          working-directory: client
           command: npm run cypress:run
+          start: npm run start:test
           wait-on: http://localhost:3003
