@@ -46,4 +46,4 @@ jobs:
         with:
           command: npm run cypress:run
           start: npm run start:test
-          wait-on: http://localhost:3003
+          
