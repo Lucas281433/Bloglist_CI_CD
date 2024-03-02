@@ -63,3 +63,5 @@ jobs:
           start: npm run start:test
           wait-on: http://localhost:3003
           
+      - name: Deploy Bloglit in Render
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
