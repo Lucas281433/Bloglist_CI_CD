@@ -45,14 +45,10 @@ jobs:
         uses: cypress-io/github-action@v5
         env: 
           PORT: ${{ secrets.PORT }}
-          
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
           run: |
-            echo "$baseUrl"
-            echo "$BACKEND"
             echo "$PORT"
-            echo "$MONGODB_URI"
             echo "$TEST_MONGODB_URI"
             echo "$SECRET"
         with:
