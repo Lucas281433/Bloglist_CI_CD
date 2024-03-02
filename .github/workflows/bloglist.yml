@@ -44,9 +44,13 @@ jobs:
       - name: Test e2e
         uses: cypress-io/github-action@v5
         env: 
+          baseUrl: ${{ secrets.BASEURL }}
+          BACKEND: ${{ secrets.BACKEND }}
           PORT: ${{ secrets.PORT }}
           run: |
-            echo "$PORT"  
+            echo "$baseUrl"
+            echo "$BACKEND"
+            echo "$PORT"
         with:
           command: npm run cypress:run
           start: npm run start:test
