@@ -35,9 +35,7 @@ jobs:
         working-directory: client
         run: npm run build
 
-      - name: Start server Forntend
-        working-directory: client
-        run: npm run dev
+      
 
       - name: Test frontend
         working-directory: client
