@@ -65,3 +65,37 @@ jobs:
           
       - name: Deploy Bloglit in Render
         run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+      - name: Notify Discord Success
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: info
+          username: GitHub
+          text: Bloglist deployed Success
+          description: To ${{ secrets.RENDER_DEPLOY_URL }} By ${{ github.actor }}
+          footer: 'Severity: Informational'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Notify Discord Failure
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: error
+          username: GitHub
+          text: Deploy Failed
+          description: Commit ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.run_id }} By ${{ github.actor }} :(
+          footer: 'Severity: Error'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          
+  tag_release:
+    needs: [deploy_bloglist]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump version and Push
+        uses: anothrNick/github-tag-action@1.67.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: minor
