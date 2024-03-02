@@ -53,11 +53,11 @@ jobs:
         env: 
           PORT: ${{ secrets.PORT }}
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          SECRET: ${{ secrets.SECRET }}
+         
           run: |
             echo "$PORT"
             echo "$TEST_MONGODB_URI"
-            echo "$SECRET"
+            
         with:
           command: npm run cypress:run
           start: npm run start:test
