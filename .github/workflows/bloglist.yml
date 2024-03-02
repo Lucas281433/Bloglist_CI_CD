@@ -36,6 +36,7 @@ jobs:
         run: npm run build
 
       - name: Test backend
+        working-directory: tests
         run: npm run test
 
       - name: Test frontend
@@ -47,4 +48,4 @@ jobs:
         with:
           command: npm run cypress:run
           start: npm run start:test
-          wait-on: http://localhost:3003
+          wait-on: http://localhost:3003/api
