@@ -53,40 +53,46 @@ jobs:
         env: 
           PORT: ${{ secrets.PORT }}
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-         
+          SECRET: ${{ secrets.SECRET }}
           run: |
             echo "$PORT"
             echo "$TEST_MONGODB_URI"
-            
+            echo "$SECRET"
         with:
           command: npm run cypress:run
           start: npm run start:test
           wait-on: http://localhost:3003
+
+      - name: Check if contains skip
+        env: 
+          SKIP: ${{ contains(toJson(github.event.head_commit.message), '#skip') }}
+        run: echo "$SKIP"
           
       - name: Deploy Bloglit in Render
+        if: ${{ github.event_name == 'push' && env.SKIP == 'false' }}
         run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
 
-      - name: Notify Discord Success
-        if: ${{ success() }}
-        uses: rjstone/discord-webhook-notify@v1
-        with:
-          severity: info
-          username: GitHub
-          text: Bloglist deployed Success
-          description: To ${{ secrets.RENDER_DEPLOY_URL }} By ${{ github.actor }}
-          footer: 'Severity: Informational'
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      #- name: Notify Discord Success
+       # if: ${{ success() }}
+        #uses: rjstone/discord-webhook-notify@v1
+        #with:
+         # severity: info
+          #username: GitHub
+          #text: Bloglist deployed Success
+          #description: To ${{ secrets.RENDER_DEPLOY_URL }} By ${{ github.actor }}
+          #footer: 'Severity: Informational'
+          #webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
-      - name: Notify Discord Failure
-        if: ${{ failure() }}
-        uses: rjstone/discord-webhook-notify@v1
-        with:
-          severity: error
-          username: GitHub
-          text: Deploy Failed
-          description: Commit ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }} By ${{ github.actor }} :(
-          footer: 'Severity: Error'
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      #- name: Notify Discord Failure
+        #if: ${{ failure() }}
+        #uses: rjstone/discord-webhook-notify@v1
+        #with:
+          #severity: error
+          #username: GitHub
+          #text: Deploy Failed
+          #description: Commit ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }} By ${{ github.actor }} :(
+          #footer: 'Severity: Error'
+          #webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           
   tag_release:
     needs: [deploy_bloglist]
