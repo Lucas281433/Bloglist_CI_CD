@@ -50,7 +50,7 @@ jobs:
 
       - name: Test e2e
         uses: cypress-io/github-action@v5
-        env: 
+        env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
           run: |
@@ -59,9 +59,9 @@ jobs:
         with:
           start: npm run start:test
           wait-on: http://localhost:3003
-          
+
       - name: Deploy Bloglit in Render
-        env: 
+        env:
           SKIP: ${{ contains(toJson(github.event.head_commit.message), '#skip') }}
         if: ${{ github.event_name == 'push' && env.SKIP == 'false' }}
         run: |
@@ -76,7 +76,7 @@ jobs:
           username: GitHub
           text: Bloglist deployed Success
           description: To ${{ secrets.RENDER_DEPLOY_URL }} By ${{ github.actor }}
-          footer: 'Severity: Informational'
+          footer: "Severity: Informational"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Notify Discord Failure
@@ -87,9 +87,9 @@ jobs:
           username: GitHub
           text: Deploy Failed
           description: Commit ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }} By ${{ github.actor }} :(
-          footer: 'Severity: Error'
+          footer: "Severity: Error"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          
+
   tag_release:
     needs: [deploy_bloglist]
     runs-on: ubuntu-20.04
