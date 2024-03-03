@@ -69,8 +69,12 @@ jobs:
         run: echo "$SKIP"
           
       - name: Deploy Bloglit in Render
-        if: ${{ github.event_name == 'push' && env.SKIP == 'false' }}
-        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
+        env: 
+          SKIP: ${{ contains(toJson(github.event.head_commit.message), '#skip') }}
+        if: ${{ github.event_name == 'push' && !env.SKIP }}
+        run: |
+          echo "$SKIP"
+          curl ${{ secrets.RENDER_DEPLOY_HOOK }}
 
       #- name: Notify Discord Success
        # if: ${{ success() }}
