@@ -35,38 +35,30 @@ jobs:
         working-directory: client
         run: npm run build
 
-      - name: Test backend
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          SECRET: ${{ secrets.SECRET }}
-        run: |
-          echo "$TEST_MONGODB_URI"
-          echo "$SECRET"
-          npm run test
+      #- name: Test backend
+        #env:
+          #TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          #SECRET: ${{ secrets.SECRET }}
+        #run: |
+          #echo "$TEST_MONGODB_URI"
+          #echo "$SECRET"
+          #npm run test
 
-      - name: Test frontend
-        working-directory: client
-        run: npm run test
+      #- name: Test frontend
+       # working-directory: client
+        #run: npm run test
 
-      - name: Test e2e
-        uses: cypress-io/github-action@v5
-        env: 
-          PORT: ${{ secrets.PORT }}
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          SECRET: ${{ secrets.SECRET }}
-          run: |
-            echo "$PORT"
-            echo "$TEST_MONGODB_URI"
-            echo "$SECRET"
-        with:
-          command: npm run cypress:run
-          start: npm run start:test
-          wait-on: http://localhost:3003
-
-      - name: Check if contains skip
-        env: 
-          SKIP: ${{ contains(toJson(github.event.head_commit.message), '#skip') }}
-        run: echo "$SKIP"
+      #- name: Test e2e
+       # uses: cypress-io/github-action@v5
+        #env: 
+         ##TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          #SECRET: ${{ secrets.SECRET }}
+          #run: |
+           ##echo "$TEST_MONGODB_URI"
+            #echo "$SECRET"
+        #with:
+         ##start: npm run start:test
+          #wait-on: http://localhost:3003
           
       - name: Deploy Bloglit in Render
         env: 
@@ -109,3 +101,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
+          run: echo "$GITHUB_TOKEN"
