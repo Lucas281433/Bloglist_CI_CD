@@ -105,4 +105,4 @@ jobs:
         env:
           SKIP: ${{ contains(toJson(github.event.head_commit.message), '#skip') }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: minor
