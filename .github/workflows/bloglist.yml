@@ -71,7 +71,7 @@ jobs:
       - name: Deploy Bloglit in Render
         env: 
           SKIP: ${{ contains(toJson(github.event.head_commit.message), '#skip') }}
-        if: ${{ github.event_name == 'push' && !env.SKIP }}
+        if: ${{ github.event_name == 'push' && env.SKIP == 'false' }}
         run: |
           echo "$SKIP"
           curl ${{ secrets.RENDER_DEPLOY_HOOK }}
