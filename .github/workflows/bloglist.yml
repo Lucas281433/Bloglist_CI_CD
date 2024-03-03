@@ -35,30 +35,30 @@ jobs:
         working-directory: client
         run: npm run build
 
-      #- name: Test backend
-        #env:
-          #TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          #SECRET: ${{ secrets.SECRET }}
-        #run: |
-          #echo "$TEST_MONGODB_URI"
-          #echo "$SECRET"
-          #npm run test
+      - name: Test backend
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
+        run: |
+          echo "$TEST_MONGODB_URI"
+          echo "$SECRET"
+          npm run test
 
-      #- name: Test frontend
-       # working-directory: client
-        #run: npm run test
+      - name: Test frontend
+        working-directory: client
+        run: npm run test
 
-      #- name: Test e2e
-       # uses: cypress-io/github-action@v5
-        #env: 
-         ##TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          #SECRET: ${{ secrets.SECRET }}
-          #run: |
-           ##echo "$TEST_MONGODB_URI"
-            #echo "$SECRET"
-        #with:
-         ##start: npm run start:test
-          #wait-on: http://localhost:3003
+      - name: Test e2e
+        uses: cypress-io/github-action@v5
+        env: 
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
+          run: |
+            echo "$TEST_MONGODB_URI"
+            echo "$SECRET"
+        with:
+          start: npm run start:test
+          wait-on: http://localhost:3003
           
       - name: Deploy Bloglit in Render
         env: 
@@ -68,27 +68,27 @@ jobs:
           echo "$SKIP"
           curl ${{ secrets.RENDER_DEPLOY_HOOK }}
 
-      #- name: Notify Discord Success
-       # if: ${{ success() }}
-        #uses: rjstone/discord-webhook-notify@v1
-        #with:
-         # severity: info
-          #username: GitHub
-          #text: Bloglist deployed Success
-          #description: To ${{ secrets.RENDER_DEPLOY_URL }} By ${{ github.actor }}
-          #footer: 'Severity: Informational'
-          #webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Notify Discord Success
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: info
+          username: GitHub
+          text: Bloglist deployed Success
+          description: To ${{ secrets.RENDER_DEPLOY_URL }} By ${{ github.actor }}
+          footer: 'Severity: Informational'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
-      #- name: Notify Discord Failure
-        #if: ${{ failure() }}
-        #uses: rjstone/discord-webhook-notify@v1
-        #with:
-          #severity: error
-          #username: GitHub
-          #text: Deploy Failed
-          #description: Commit ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }} By ${{ github.actor }} :(
-          #footer: 'Severity: Error'
-          #webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Notify Discord Failure
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: error
+          username: GitHub
+          text: Deploy Failed
+          description: Commit ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }} By ${{ github.actor }} :(
+          footer: 'Severity: Error'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           
   tag_release:
     needs: [deploy_bloglist]
