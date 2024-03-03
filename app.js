@@ -26,7 +26,7 @@ app.use(express.static("dist"));
 app.use(cors());
 app.use(middleware.tokenExtractor);
 
-app.use("/api/health", healthRouter);
+app.use("/health", healthRouter);
 app.use("/api/blogs", blogsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
